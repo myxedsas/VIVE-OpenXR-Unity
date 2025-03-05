@@ -2,13 +2,16 @@
 
 using UnityEngine;
 
+#if UNITY_ANDROID
 using VIVE.OpenXR.Passthrough;
 using VIVE.OpenXR.Samples;
+#endif
 
 namespace VIVE.OpenXR.CompositionLayer.Samples.Passthrough
 {
     public class PassthroughSample_Planar : MonoBehaviour
     {
+#if UNITY_ANDROID
         private OpenXR.Passthrough.XrPassthroughHTC activePassthroughID = 0;
         private LayerType currentActiveLayerType = LayerType.Underlay;
 
@@ -38,34 +41,42 @@ namespace VIVE.OpenXR.CompositionLayer.Samples.Passthrough
                 }
             }
         }
-
+#endif
         public void SetPassthroughToOverlay()
         {
+#if UNITY_ANDROID
             if (activePassthroughID != 0)
             {
                 PassthroughAPI.SetPassthroughLayerType(activePassthroughID, LayerType.Overlay);
                 currentActiveLayerType = LayerType.Overlay;
             }
+#endif
         }
 
         public void SetPassthroughToUnderlay()
         {
+#if UNITY_ANDROID
             if (activePassthroughID != 0)
             {
                 PassthroughAPI.SetPassthroughLayerType(activePassthroughID, LayerType.Underlay);
                 currentActiveLayerType = LayerType.Underlay;
             }
+#endif
         }
 
         void StartPassthrough()
         {
+#if UNITY_ANDROID
             PassthroughAPI.CreatePlanarPassthrough(out activePassthroughID, currentActiveLayerType, OnDestroyPassthroughFeatureSession);
+#endif
         }
 
         void OnDestroyPassthroughFeatureSession(OpenXR.Passthrough.XrPassthroughHTC passthroughID)
         {
+#if UNITY_ANDROID
             PassthroughAPI.DestroyPassthrough(passthroughID);
             activePassthroughID = 0;
+#endif
         }
     }
 }
